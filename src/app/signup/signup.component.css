@@ -7,3 +7,9 @@
 .login-header > .category {
 	text-align: center;
 }
+
+
+.form-group > .form-field-error > p {
+	font-size: 0.9em;
+	color: gray;
+}

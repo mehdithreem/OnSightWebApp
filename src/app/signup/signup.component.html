@@ -1,0 +1,104 @@
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+				<div class="card">
+					<div class="card-header login-header" data-background-color="red">
+						<h4 class="title">OnSight Team</h4>
+						<p class="category">ثبت نام</p>
+					</div>
+					<div class="card-content">
+						<form [formGroup]="signupForm" (ngSubmit)="signup()">
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="form-group label-floating">
+										<label class="control-label">First Name</label>
+										<input name="name" type="text" class="form-control" formControlName="name">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="form-group label-floating">
+										<label class="control-label">Last Name</label>
+										<input name="family" type="text" class="form-control" formControlName="family">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="form-group label-floating"
+										 [ngClass]="{'has-error' : !signupForm.controls.username.valid && signupForm.controls.username.touched}">
+
+										<label class="control-label">Username</label>
+										<input name="username" type="text" class="form-control" formControlName="username">
+										<div *ngIf="signupForm.controls.username.touched && signupForm.controls.username.hasError('required')" class="form-field-error">
+											<span class="material-icons form-control-feedback">clear</span>
+											<p>required</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="form-group label-floating"
+										 [ngClass]="{'has-error' : !signupForm.controls.password.valid && signupForm.controls.password.touched}">
+										<label class="control-label">Password</label>
+										<input name="password" type="Password" class="form-control" formControlName="password">
+										<div *ngIf="signupForm.controls.password.touched && signupForm.controls.password.hasError('required')" class="form-field-error">
+											<span class="material-icons form-control-feedback">clear</span>
+											<p>required</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="form-group label-floating"
+										 [ngClass]="{'has-error' : signupForm.controls.password.valid && !signupForm.controls.repassword.valid && signupForm.controls.repassword.touched}">
+										<label class="control-label">Repeat Password</label>
+										<input name="repassword" type="Password" class="form-control" formControlName="repassword">
+										<div *ngIf="signupForm.controls.repassword.touched && signupForm.controls.password.valid" class="form-field-error">
+											<span class="material-icons form-control-feedback">clear</span>
+											<p *ngIf="signupForm.hasError('mismatchedPasswords')">Mismatched Password</p>
+											<p *ngIf="signupForm.controls.repassword.hasError('required')">required</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-offset-1 col-md-5">
+									<a class="btn btn-default block btn-block" routerLink="/login">Login</a>
+								</div>
+								<div class="col-md-5">
+									<button class="btn btn-danger btn-block" type="submit" [disabled]="!signupForm.valid">Sign-up</button>
+								</div>
+							</div>
+
+							<!--#TODO: alertService-->
+							<div *ngIf="errorMessage" class="alert alert-danger">
+								<div class="container-fluid">
+									<div class="alert-icon">
+										<i class="material-icons">error_outline</i>
+									</div>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true"><i class="material-icons">clear</i></span>
+									</button>
+									<b>Error Alert:</b> {{errorMessage}}
+								</div>
+							</div>
+
+
+							<div class="clearfix"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
