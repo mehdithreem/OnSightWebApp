@@ -4,6 +4,8 @@ import {Router} from "@angular/router";
 import {User} from "../_model/user";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
+declare let $:any;
+
 @Component({
 	selector: 'app-signup',
 	templateUrl: './signup.component.html',
@@ -30,6 +32,7 @@ export class SignupComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		$.getScript('../assets/js/material-dashboard.js');
 	}
 
 	matchingPasswords(passwordKey: string, repasswordKey: string) {
