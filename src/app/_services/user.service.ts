@@ -16,8 +16,6 @@ export class UserService {
 			.get('/onsight/user_info', { withCredentials: true })
 			.toPromise()
 			.then(response => {
-				console.log('user info');
-				console.log(response.json() as User);
 				return response.json().userInfo as User;
 			})
 			.catch(err => {

@@ -4,6 +4,6 @@ import {SidebarItemInfo} from "./sidebar.meta";
  */
 
 export const ITEMS: SidebarItemInfo[] = [
-	{ path: 'dashboard', title: 'داشبورد', access: ['admin', 'user'], iconClass: 'material-icons', icon: 'dashboard' },
+	{ path: 'home', title: 'داشبورد', access: ['admin', 'user'], iconClass: 'material-icons', icon: 'dashboard' },
 	{ path: 'new-users', title: 'کاربران جدید', access: ['admin'], iconClass: 'material-icons', icon: 'group_add' }
 ];

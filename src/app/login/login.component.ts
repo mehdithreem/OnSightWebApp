@@ -13,7 +13,6 @@ export class LoginComponent implements OnInit {
 	username: string;
 	password: string;
 	errorMessage: string;
-	returnUrl: string;
 	loading: boolean; // #TODO: loading component
 
 	constructor(
@@ -24,6 +23,7 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		$.getScript('../assets/js/material-dashboard.js');
+		this.auth.logout();
 	}
 
 	login() {
@@ -31,8 +31,12 @@ export class LoginComponent implements OnInit {
 
 		this.auth.login(this.username, this.password)
 			.then(message => {
-				if(this.auth.isLoggedIn()) {
-					this.router.navigate([this.returnUrl]);
+				if (this.auth.isLoggedIn()) {
+					console.log(this.auth.redirectUrl);
+					if (this.auth.redirectUrl)
+						this.router.navigate([this.auth.redirectUrl]);
+					else
+						this.router.navigate(['/']);
 				} else {
 					this.errorMessage = message;
 					this.password = "";

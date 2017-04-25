@@ -11,24 +11,17 @@ import {UserService} from "./user.service";
 
 @Injectable()
 export class AuthenticationService {
-	private activeUser : Promise<User>;
-	private loggedIn : Boolean;
+	redirectUrl: string; // TODO: implement this
 
-	constructor(private http: Http, private uservice: UserService) {
-		this.loggedIn = false;
-		this.activeUser = null;
-	}
+	constructor(private http: Http, private uservice: UserService) {}
 
-	login(username: string, password: string) : Promise<string> {
-		this.activeUser = null;
-		this.loggedIn = false;
-
+	login(username: string, password: string): Promise<string> {
 		let params = new URLSearchParams();
 		params.append('username', username);
 		params.append('password', password);
 
 		return this.http
-			.post('/onsight/login', '',{ search: params } )
+			.post('/onsight/login', '', {search: params})
 			.toPromise()
 			.then((response: Response) => {
 				let resp = response.json();
@@ -36,8 +29,7 @@ export class AuthenticationService {
 					return resp.message;
 				}
 
-				this.updateActiveUser();
-				this.loggedIn = true;
+				localStorage.setItem("loggedIn", "true");
 			})
 			.catch(err => {
 				console.error("login: " + err);
@@ -46,12 +38,11 @@ export class AuthenticationService {
 	}
 
 	logout() {
-		this.activeUser = null;
-		this.loggedIn = false;
+		localStorage.removeItem("loggedIn");
 		this.http.post('/onsight/logout', '');
 	}
 
-	signup(user: User, password: string): Promise<string|boolean> {
+	signup(user: User, password: string): Promise<string | boolean> {
 		let params = new URLSearchParams();
 
 		params.append('username', user.username);
@@ -60,7 +51,7 @@ export class AuthenticationService {
 		params.append('family', user.family);
 
 		return this.http
-			.post('/onsight/signup', '', { search: params})
+			.post('/onsight/signup', '', {search: params})
 			.toPromise()
 			.then(response => {
 				if (response.json().result)
@@ -73,18 +64,15 @@ export class AuthenticationService {
 			});
 	}
 
-	updateActiveUser() {
-		this.activeUser = this.uservice.getActiveUserDetail();
-	}
-
 	getActiveUser(): Promise<User> {
-		if (this.loggedIn)
-			return this.activeUser; // TODO: test if this returns a copy
+		if (this.isLoggedIn())
+			return this.uservice.getActiveUserDetail();
 		else
 			return null;
 	}
 
 	isLoggedIn(): Boolean {
-		return this.loggedIn;
+		// TODO: timestamp
+		return localStorage.getItem("loggedIn") != null;
 	}
 }
